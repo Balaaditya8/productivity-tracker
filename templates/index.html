@@ -74,8 +74,9 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             width: 80%;
             transition: transform 0.2s;
-        }
-
+            overflow-x: auto; /* Enable horizontal scrolling */
+            white-space: nowrap; /* Prevent app boxes from wrapping */
+}
         .hour-row:hover {
             transform: scale(1.02);
         }
@@ -90,34 +91,39 @@
             color: #555;
         }
 
-        /* Style for app usage mini boxes inside each hour */
         .app-box {
-            border: 2px solid #007BFF;
-            margin: 5px;
-            padding: 10px;
-            background-color: #e9f7ff;
-            text-align: center;
-            width: 120px;
-            border-radius: 8px;
-            transition: background-color 0.3s;
-        }
+    border: 2px solid #007BFF;
+    margin: 5px;
+    padding: 10px;
+    background-color: #e9f7ff;
+    text-align: center;
+    width: 120px; /* Fixed width */
+    border-radius: 8px;
+    transition: background-color 0.3s;
+    flex-shrink: 0; /* Prevent shrinking */
+    display: flex; /* Flexbox for column alignment */
+    flex-direction: column; /* Align content vertically */
+    justify-content: center;
+    align-items: center;
+}
 
-        .app-box:hover {
-            background-color: #007BFF;
-            color: #fff;
-        }
+.app-box:hover {
+    background-color: #007BFF;
+    color: #fff;
+}
 
-        /* Styling for app names and times */
-        .app-name {
-            font-weight: bold;
-            font-size: 16px;
-            color: #333;
-        }
+.app-name {
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 5px; /* Space below app name */
+}
 
-        .time-spent {
-            font-size: 14px;
-            color: #555;
-        }
+.time-spent {
+    font-size: 14px;
+    color: #555;
+}
+
 
         .no-activity {
             color: #888;

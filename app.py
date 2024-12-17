@@ -50,9 +50,9 @@ def calculate_hourly_data(target_date=None):
 
 @app.route('/', methods=['GET'])
 def index():
-    target_date = request.args.get('date')  # Get the date from query parameters
+    target_date = request.args.get('date')  
     if not target_date:
-        target_date = datetime.now().strftime('%Y-%m-%d')  # Default to today's date
+        target_date = datetime.now().strftime('%Y-%m-%d')
     
     hourly_data = calculate_hourly_data(target_date)
     return render_template('index.html', hourly_data=hourly_data, target_date=target_date)
