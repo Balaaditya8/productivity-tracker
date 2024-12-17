@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from datetime import datetime
 from collections import defaultdict
 import sqlite3
@@ -10,50 +10,52 @@ def parse_time(time_str):
     return datetime.strptime(time_str, "%Y-%m-%d %H:%M:%S")
 
 # Function to calculate hourly usage data
-def calculate_hourly_data():
-    # Connect to the SQLite database to fetch app usage data
+def calculate_hourly_data(target_date=None):
     conn = sqlite3.connect('app_usage.db')
     cursor = conn.cursor()
     
-    # Query to fetch the app usage data from the database
-    cursor.execute("SELECT app_name, start_time, end_time FROM app_usage ORDER BY start_time")
-    app_usage = cursor.fetchall()
+    # Query to fetch app usage data (filter by date if provided)
+    if target_date:
+        cursor.execute("""
+            SELECT app_name, start_time, end_time 
+            FROM app_usage 
+            WHERE DATE(start_time) = ?
+            ORDER BY start_time
+        """, (target_date,))
+    else:
+        cursor.execute("SELECT app_name, start_time, end_time FROM app_usage ORDER BY start_time")
     
-    # Close the database connection
+    app_usage = cursor.fetchall()
     conn.close()
     
-    # Dictionary to hold hourly data (key: hour, value: list of (app_name, time_spent))
     hourly_data = defaultdict(lambda: defaultdict(float))
     
-    # Iterate through the fetched app usage data
+    # Process fetched data
     for usage in app_usage:
         app_name = usage[0]
         start_time = parse_time(usage[1])
         end_time = parse_time(usage[2])
         
-        # Calculate time spent in minutes
         time_spent = math.ceil((end_time - start_time).seconds / 60)
-        
-        # Get the hour of the start time
         hour = start_time.hour
-        
-        # Accumulate time spent on the app in the respective hour
         hourly_data[hour][app_name] += time_spent
-    
-    # Ensure all 24 hours are represented, even if no data exists
+
+    # Fill all 24 hours to ensure proper rendering
     for hour in range(24):
         if hour not in hourly_data:
             hourly_data[hour] = {}
     
     return hourly_data
 
-@app.route('/')
+
+@app.route('/', methods=['GET'])
 def index():
-    # Get the hourly data
-    hourly_data = calculate_hourly_data()
+    target_date = request.args.get('date')  # Get the date from query parameters
+    if not target_date:
+        target_date = datetime.now().strftime('%Y-%m-%d')  # Default to today's date
     
-    # Pass the data to the HTML template
-    return render_template('index.html', hourly_data=hourly_data)
+    hourly_data = calculate_hourly_data(target_date)
+    return render_template('index.html', hourly_data=hourly_data, target_date=target_date)
 
 if __name__ == '__main__':
     app.run(debug=True)

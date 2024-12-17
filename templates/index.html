@@ -22,6 +22,37 @@
             font-size: 2em;
         }
 
+        /* Date picker form */
+        .date-form {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .date-form input[type="date"] {
+            padding: 8px;
+            font-size: 1em;
+            border: 2px solid #007BFF;
+            border-radius: 5px;
+            margin-right: 10px;
+            outline: none;
+        }
+
+        .date-form button {
+            padding: 8px 12px;
+            font-size: 1em;
+            color: #fff;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .date-form button:hover {
+            background-color: #0056b3;
+        }
+
         /* Container for the grid layout */
         .container {
             display: flex;
@@ -115,14 +146,26 @@
 </head>
 <body>
     <h1>App Usage Tracker</h1>
+
+    <!-- Date Picker Form -->
+    <div class="date-form">
+        <form method="get" action="/">
+            <input type="date" name="date" value="{{ target_date }}" required>
+            <button type="submit">View Usage</button>
+        </form>
+    </div>
+
+    <!-- Display Selected Date -->
+    <h2 style="text-align: center; color: #333;">App Usage for {{ target_date }}</h2>
+
+    <!-- Container for Hourly Data -->
     <div class="container">
-        <!-- Loop over all hours from 0 to 23 -->
         {% for hour in range(24) %}
             <div class="hour-row">
                 <!-- Hour Label -->
                 <div class="hour-label">{{ hour }}:00</div>
 
-                <!-- Displaying Apps in Mini Boxes for each Hour -->
+                <!-- Displaying Apps in Mini Boxes for Each Hour -->
                 {% if hourly_data[hour] %}
                     {% for app, time in hourly_data[hour].items() %}
                         <div class="app-box">

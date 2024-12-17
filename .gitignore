@@ -15,7 +15,7 @@ productivity_env/
 # IDE and editor configuration folders
 .vscode/
 .idea/
-
+.DS_Store
 # Log files and temp files
 *.log
 *.tmp
