@@ -1,0 +1,21 @@
+__pycache__/
+*.pyc
+*.pyo
+
+# Environment files
+.env
+config.py
+
+# Virtual environment folder
+productivity_env/
+
+# Database files
+*.db
+
+# IDE and editor configuration folders
+.vscode/
+.idea/
+
+# Log files and temp files
+*.log
+*.tmp

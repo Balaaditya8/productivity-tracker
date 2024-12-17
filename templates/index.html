@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Usage Tracker</title>
+    <style>
+        /* General body styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #007BFF;
+            font-size: 2em;
+        }
+
+        /* Container for the grid layout */
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Style for each hour row */
+        .hour-row {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin: 12px 0;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            transition: transform 0.2s;
+        }
+
+        .hour-row:hover {
+            transform: scale(1.02);
+        }
+
+        /* Style for the hour label */
+        .hour-label {
+            width: 80px;
+            font-weight: bold;
+            font-size: 18px;
+            text-align: center;
+            margin-right: 20px;
+            color: #555;
+        }
+
+        /* Style for app usage mini boxes inside each hour */
+        .app-box {
+            border: 2px solid #007BFF;
+            margin: 5px;
+            padding: 10px;
+            background-color: #e9f7ff;
+            text-align: center;
+            width: 120px;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .app-box:hover {
+            background-color: #007BFF;
+            color: #fff;
+        }
+
+        /* Styling for app names and times */
+        .app-name {
+            font-weight: bold;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .time-spent {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .no-activity {
+            color: #888;
+            font-style: italic;
+            margin-left: 20px;
+            font-size: 16px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+            }
+
+            .hour-label {
+                font-size: 14px;
+                width: 60px;
+            }
+
+            .app-box {
+                width: 100px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>App Usage Tracker</h1>
+    <div class="container">
+        <!-- Loop over all hours from 0 to 23 -->
+        {% for hour in range(24) %}
+            <div class="hour-row">
+                <!-- Hour Label -->
+                <div class="hour-label">{{ hour }}:00</div>
+
+                <!-- Displaying Apps in Mini Boxes for each Hour -->
+                {% if hourly_data[hour] %}
+                    {% for app, time in hourly_data[hour].items() %}
+                        <div class="app-box">
+                            <div class="app-name">{{ app }}</div>
+                            <div class="time-spent">{{ time }} mins</div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="no-activity">No activity</div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
