@@ -21,3 +21,17 @@ A simple Flask-based application that tracks app usage and displays time spent o
 - **JavaScript**: Enables smooth scrolling behavior.
 
 ---
+## Running the App
+
+### Step 1: Update the Database
+Before running the app, populate or update the database with usage data using tracker.py:
+
+```bash
+python tracker.py
+```
+### Step 2: Start the Flask App
+Run the Flask server:
+```bash
+python app.py
+```
+---
