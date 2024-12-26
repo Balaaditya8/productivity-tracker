@@ -1,5 +1,5 @@
 # App Usage Tracker
-
+*Only for Mac*
 A simple Flask-based application that tracks app usage and displays time spent on each app for every hour of the day. The app retrieves app usage data from a SQLite database, processes it, and presents it in a clean, user-friendly web interface.
 
 ---
